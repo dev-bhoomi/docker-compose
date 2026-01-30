@@ -1,0 +1,12 @@
+FROM python:3.11-slim
+# create the directory inside the container /app
+WORKDIR /app  
+# for fast build, copy the requirements.txt from host(your computer) to container  instead of cache dependencies from host machine cache from your container
+COPY requirements.txt /app  
+RUN pip install --no-cache-dir --upgrade pip \
+    && pip install --no-cache-dir -r requirements.txt
+# copy entire code(backend) to your container
+COPY . /app
+#container port  
+EXPOSE 80 
+CMD ["python","app.py"]

@@ -1,0 +1,11 @@
+{
+  "name": "frontend",
+  "version": "1.0.0",
+  "dependencies": {
+    "serve": "^14.2.1"
+  },
+  "scripts": {
+    "build": "echo 'Static files ready'",
+    "start": "npx serve -s . -l 3000"
+  }
+}

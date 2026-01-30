@@ -1,0 +1,33 @@
+services:
+  frontend:
+    image: frontend-app  
+    networks:
+      - netfrontend
+    ports:
+      - "3000:3000"
+    depends_on:
+      - backend
+
+  backend:
+    image: backend-app   
+    ports:
+      - "5000:5000"       
+    networks:
+      - netfrontend
+      - netbackend
+    depends_on:
+      - db
+
+  redis:
+    image: redis:alpine   
+    networks:
+      - netbackend
+
+  db: 
+    image: mongo:latest   
+    networks:
+      - netbackend
+
+networks:
+  netfrontend:
+  netbackend:

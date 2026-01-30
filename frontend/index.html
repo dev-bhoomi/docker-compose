@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Docker Full Stack App</title>
+  <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+</head>
+<body>
+  <div id="root"></div>
+  <script type="text/babel">
+    const { useState, useEffect } = React;
+
+    function App() {
+      const [users, setUsers] = useState([]);
+
+      useEffect(() => {
+        fetch('http://localhost:8000/api/users')
+          .then(res => res.json())
+          .then(data => setUsers(data.users || []));
+      }, []);
+
+      const addUser = () => {
+        fetch('http://localhost:8000/api/users', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ name: 'User ' + Date.now() })
+        }).then(() => location.reload());
+      };
+
+      return React.createElement('div', { className: 'app' },
+        React.createElement('h1', null, '🚀 Docker Full Stack App'),
+        React.createElement('button', { onClick: addUser }, '➕ Add User'),
+        React.createElement('ul', null,
+          users.map(user => 
+            React.createElement('li', { key: user.id }, user.name)
+          )
+        )
+      );
+    }
+
+    ReactDOM.render(React.createElement(App), document.getElementById('root'));
+  </script>
+</body>
+</html>
